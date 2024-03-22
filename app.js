@@ -84,6 +84,10 @@ const CourseInfo = {
     
     let ids = []
     let assignment_id = []
+    let possiblePoints = []
+    let studentPoints = []
+
+    // Get Ids
     for (let i = 0; i < submissions.length; i++)
     {
         
@@ -103,19 +107,81 @@ const CourseInfo = {
         }
     }
     
+
+    // Get Assignment Id's
     let y = 0;
     while (y < ag.assignments.length)
     {
         if(ag.assignments[y].due_at > '2024-03-22')
         {
             let del = (assignment_id.indexOf(ag.assignments[y].id))
-            delete assignment_id[del]
+             assignment_id.splice(del)
 
         }
         y++
         
     }
-    console.log(assignment_id)
+
+
+    // Get possible assignment scores
+    for (i = 0; i < ag.assignments.length; i++)
+    {
+        if(assignment_id.includes(ag.assignments[i].id))
+        {
+            possiblePoints.push(ag.assignments[i].points_possible)
+        }
+       
+    }
+
+    // Get Scores for each student 
+    for(i = 0; i < this.submission.length; i++)
+    {
+            if (assignment_id.includes(submissions[i].assignment_id))
+            {
+                studentPoints.push(submissions[i].submission.score)
+            }
+
+    }
+
+    // Check If assignments were handed in late or not
+    for(i = 0; i < assignment_id.length; i++)
+    {
+        for(j = 0; j < submissions.length; j++)
+        {
+            if(assignment_id[i] === submissions[j].assignment_id && submissions[j].submission.submitted_at > ag.assignments[i].due_at)
+            {
+                let index = (studentPoints.indexOf(submissions[j].submission.score))
+                studentPoints[index] = Math.floor(submissions[j].submission.score - (submissions[j].submission.score * .1))
+            }
+            else{
+                
+            }
+        }
+    }
+
+    
+    let score1 = 0;
+    let score2 = 0;
+    let divide = 0;
+    let s2 = studentPoints.splice(assignment_id.length * -1)
+    let avg = []
+    // Calculate Average
+    for(i = 0; i < studentPoints.length && i < s2.length; i++)
+    {
+       score1 += studentPoints[i]
+       score2 += s2[i]
+       divide += possiblePoints[i]
+    }
+    console.log(`Score1: ${score1} Score2: ${score2} Divide: ${divide}`)
+    avg.push(score1 / divide)
+    avg.push(score2 / divide)
+    console.log(avg)
+    console.log(`Student Ids ${ids}`)
+    console.log(`Assignment Ids ${assignment_id}`)
+    console.log(`Possible Points ${possiblePoints}`)
+    console.log(`Student one points ${studentPoints}`)
+    console.log(`Student two points ${s2}`)
+
       // const result = [
     //     {
     //       id: 125,

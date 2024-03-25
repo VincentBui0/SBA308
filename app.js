@@ -1,205 +1,181 @@
 // The provided course information.
 const CourseInfo = {
-    id: 451,
-    name: "Introduction to JavaScript"
-  };
-  
-  // The provided assignment group.
-  const AssignmentGroup = {
-    id: 12345,
-    name: "Fundamentals of JavaScript",
-    course_id: 451,
-    group_weight: 25,
-    assignments: [
-      {
-        id: 1,
-        name: "Declare a Variable",
-        due_at: "2023-01-25",
-        points_possible: 50
-      },
-      {
-        id: 2,
-        name: "Write a Function",
-        due_at: "2023-02-27",
-        points_possible: 150
-      },
-      {
-        id: 3,
-        name: "Code the World",
-        due_at: "3156-11-15",
-        points_possible: 500
-      }
-    ]
-  };
-  
-  // The provided learner submission data.
-  const LearnerSubmissions = [
+  id: 451,
+  name: "Introduction to JavaScript"
+};
+
+// The provided assignment group.
+const AssignmentGroup = {
+  id: 12345,
+  name: "Fundamentals of JavaScript",
+  course_id: 451,
+  group_weight: 25,
+  assignments: [
     {
-      learner_id: 125,
-      assignment_id: 1,
-      submission: {
-        submitted_at: "2023-01-25",
-        score: 47
-      }
+      id: 1,
+      name: "Declare a Variable",
+      due_at: "2023-01-25",
+      points_possible: 50
     },
     {
-      learner_id: 125,
-      assignment_id: 2,
-      submission: {
-        submitted_at: "2023-02-12",
-        score: 150
-      }
+      id: 2,
+      name: "Write a Function",
+      due_at: "2023-02-27",
+      points_possible: 150
     },
     {
-      learner_id: 125,
-      assignment_id: 3,
-      submission: {
-        submitted_at: "2023-01-25",
-        score: 400
-      }
-    },
-    {
-      learner_id: 132,
-      assignment_id: 1,
-      submission: {
-        submitted_at: "2023-01-24",
-        score: 39
-      }
-    },
-    {
-      learner_id: 132,
-      assignment_id: 2,
-      submission: {
-        submitted_at: "2023-03-07",
-        score: 140
-      }
+      id: 3,
+      name: "Code the World",
+      due_at: "3156-11-15",
+      points_possible: 500
     }
-  ];
-  
-  function getLearnerData(course, ag, submissions) {
-    // here, we would process this data to achieve the desired result.
-    this.course = course 
-    this.ag = ag
-    this.submission = submissions
-    
-    let ids = []
-    let assignment_id = []
-    let possiblePoints = []
-    let studentPoints = []
+  ]
+};
 
-    // Get Ids
-    for (let i = 0; i < submissions.length; i++)
-    {
-        
-        if (ids.includes(submissions[i].learner_id) )
-        {
-          
-        }
-        else{
-            ids.push(submissions[i].learner_id)
-        }
-        if (assignment_id.includes(submissions[i].assignment_id))
-        {
-            
-        }
-        else{
-            assignment_id.push(submission[i].assignment_id)
-        }
+// The provided learner submission data.
+const LearnerSubmissions = [
+  {
+    learner_id: 125,
+    assignment_id: 1,
+    submission: {
+      submitted_at: "2023-01-25",
+      score: 47
     }
-    
-
-    // Get Assignment Id's
-    let y = 0;
-    while (y < ag.assignments.length)
-    {
-        if(ag.assignments[y].due_at > '2024-03-22')
-        {
-            let del = (assignment_id.indexOf(ag.assignments[y].id))
-             assignment_id.splice(del)
-
-        }
-        y++
-        
+  },
+  {
+    learner_id: 125,
+    assignment_id: 2,
+    submission: {
+      submitted_at: "2023-02-12",
+      score: 150
     }
-
-
-    // Get possible assignment scores
-    for (i = 0; i < ag.assignments.length; i++)
-    {
-        if(assignment_id.includes(ag.assignments[i].id))
-        {
-            possiblePoints.push(ag.assignments[i].points_possible)
-        }
-       
+  },
+  {
+    learner_id: 125,
+    assignment_id: 3,
+    submission: {
+      submitted_at: "2023-01-25",
+      score: 400
     }
-
-    // Get Scores for each student 
-    for(i = 0; i < this.submission.length; i++)
-    {
-            if (assignment_id.includes(submissions[i].assignment_id))
-            {
-                studentPoints.push(submissions[i].submission.score)
-            }
-
+  },
+  {
+    learner_id: 132,
+    assignment_id: 1,
+    submission: {
+      submitted_at: "2023-01-24",
+      score: 39
     }
-
-    // Check If assignments were handed in late or not
-    for(i = 0; i < assignment_id.length; i++)
-    {
-        for(j = 0; j < submissions.length; j++)
-        {
-            if(assignment_id[i] === submissions[j].assignment_id && submissions[j].submission.submitted_at > ag.assignments[i].due_at)
-            {
-                let index = (studentPoints.indexOf(submissions[j].submission.score))
-                studentPoints[index] = Math.floor(submissions[j].submission.score - (submissions[j].submission.score * .1))
-            }
-            else{
-                
-            }
-        }
+  },
+  {
+    learner_id: 132,
+    assignment_id: 2,
+    submission: {
+      submitted_at: "2023-03-07",
+      score: 140
     }
+  }
+];
 
-    
-    let score1 = 0;
-    let score2 = 0;
-    let divide = 0;
-    let s2 = studentPoints.splice(assignment_id.length * -1)
-    let avg = []
-    // Calculate Average
-    for(i = 0; i < studentPoints.length && i < s2.length; i++)
-    {
-       score1 += studentPoints[i]
-       score2 += s2[i]
-       divide += possiblePoints[i]
+function getLearnerData(course, assignmentGroup, submissions) {
+  // Storing course, assignmentGroup, and submissions data.
+  this.course = course;
+  this.assignmentGroup = assignmentGroup;
+  this.submission = submissions;
+
+  let ids = [];
+  let assignmentIds = [];
+  let possiblePoints = [];
+  let studentPoints = [];
+
+  // Extracting learner ids, assignment ids, and scores.
+  for (let i = 0; i < submissions.length; i++) {
+    if (!ids.includes(submissions[i].learner_id)) {
+      ids.push(submissions[i].learner_id);
     }
-    console.log(`Score1: ${score1} Score2: ${score2} Divide: ${divide}`)
-    avg.push(score1 / divide)
-    avg.push(score2 / divide)
-    console.log(avg)
-    console.log(`Student Ids ${ids}`)
-    console.log(`Assignment Ids ${assignment_id}`)
-    console.log(`Possible Points ${possiblePoints}`)
-    console.log(`Student one points ${studentPoints}`)
-    console.log(`Student two points ${s2}`)
-
-      // const result = [
-    //     {
-    //       id: 125,
-    //       avg: 0.985, // (47 + 150) / (50 + 150)
-    //       1: 0.94, // 47 / 50
-    //       2: 1.0 // 150 / 150
-    //     },
-    //     {
-    //       id: 132,
-    //       avg: 0.82, // (39 + 125) / (50 + 150)
-    //       1: 0.78, // 39 / 50
-    //       2: 0.833 // late: (140 - 15) / 150
-    //     }
-    //   ];
+    if (!assignmentIds.includes(submissions[i].assignment_id)) {
+      assignmentIds.push(submissions[i].assignment_id);
+    }
+    if (assignmentIds.includes(submissions[i].assignment_id)) {
+      studentPoints.push(submissions[i].submission.score);
+    }
   }
 
-  
-  const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
-  
-//   console.log(result);
-// console.log(AssignmentGroup.assignments[0].id)
+  // Filtering out assignments due after a certain date and obtaining possible points.
+  let y = 0;
+  while (y < assignmentGroup.assignments.length) {
+    if (assignmentGroup.assignments[y].due_at > '2024-03-22') {
+      let del = assignmentIds.indexOf(assignmentGroup.assignments[y].id);
+      assignmentIds.splice(del);
+    }
+    if (assignmentIds.includes(assignmentGroup.assignments[y].id)) {
+      possiblePoints.push(assignmentGroup.assignments[y].points_possible);
+    }
+    y++;
+  }
+
+  // Adjusting scores for late submissions.
+  for (let i = 0; i < assignmentIds.length; i++) {
+    for (let j = 0; j < submissions.length; j++) {
+      if (
+        assignmentIds[i] === submissions[j].assignment_id &&
+        submissions[j].submission.submitted_at > assignmentGroup.assignments[i].due_at
+      ) {
+        let index = studentPoints.indexOf(submissions[j].submission.score);
+        let data = submissions[j].submission.score - assignmentGroup.assignments[i].points_possible * 0.1;
+        studentPoints[index] = data;
+      }
+    }
+  }
+
+  let score1 = 0;
+  let score2 = 0;
+  let totalPossiblePoints = 0;
+  let s2 = studentPoints.splice(-assignmentIds.length);
+  let averages = [];
+  let assignmentScores1 = [];
+  let assignmentScores2 = [];
+
+  // Calculating averages.
+  for (let i = 0; i < studentPoints.length && i < s2.length; i++) {
+    assignmentScores1.push(Number((studentPoints[i] / possiblePoints[i]).toFixed(2)));
+    assignmentScores2.push(Number((s2[i] / possiblePoints[i]).toFixed(2)));
+    score1 += studentPoints[i];
+    score2 += s2[i];
+    totalPossiblePoints += possiblePoints[i];
+  }
+  averages.push(score1 / totalPossiblePoints);
+  averages.push(score2 / totalPossiblePoints);
+
+  let result = [];
+
+  function LearnerData(id, averages, score1, score2) {
+    this.id = id;
+    this.averages = averages;
+    this[1] = score1;
+    this[2] = score2;
+  }
+
+  for (let i = 0; i < assignmentIds.length; i++) {
+    let obj;
+    if (i === 0) {
+      obj = new LearnerData(ids[i], averages[i], assignmentScores1[i], assignmentScores1[i + 1]);
+    } else if (i === 1) {
+      obj = new LearnerData(ids[i], averages[i], assignmentScores2[i - 1], assignmentScores2[i]);
+    }
+    result.push(obj);
+  }
+
+  return result;
+}
+
+try {
+  if (CourseInfo.id === AssignmentGroup.course_id) {
+    const learnerData = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+    console.log(learnerData);
+  } else {
+    throw new Error('Error: Course ID and Assignment Group Course ID do not match');
+  }
+} catch (error) {
+  console.error(error);
+}
+// console.log(AssignmentGroup.assignments[0].id);

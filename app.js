@@ -76,16 +76,17 @@ const LearnerSubmissions = [
   }
 ];
 
+// This function retrieves data related to learners, assignments, and submissions.
 function getLearnerData(course, assignmentGroup, submissions) {
   // Storing course, assignmentGroup, and submissions data.
   this.course = course;
   this.assignmentGroup = assignmentGroup;
   this.submission = submissions;
 
-  let ids = [];
-  let assignmentIds = [];
-  let possiblePoints = [];
-  let studentPoints = [];
+  let ids = []; // Array to store learner ids
+  let assignmentIds = []; // Array to store assignment ids
+  let possiblePoints = []; // Array to store possible points for each assignment
+  let studentPoints = []; // Array to store points obtained by students for each assignment
 
   // Extracting learner ids, assignment ids, and scores.
   for (let i = 0; i < submissions.length; i++) {
@@ -148,6 +149,7 @@ function getLearnerData(course, assignmentGroup, submissions) {
 
   let result = [];
 
+  // Constructor function to create learner data objects.
   function LearnerData(id, averages, score1, score2) {
     this.id = id;
     this.averages = averages;
@@ -155,6 +157,7 @@ function getLearnerData(course, assignmentGroup, submissions) {
     this[2] = score2;
   }
 
+  // Creating learner data objects and storing them in the result array.
   for (let i = 0; i < assignmentIds.length; i++) {
     let obj;
     if (i === 0) {
@@ -169,13 +172,18 @@ function getLearnerData(course, assignmentGroup, submissions) {
 }
 
 try {
+  // Checking if the course ID matches the assignment group course ID.
   if (CourseInfo.id === AssignmentGroup.course_id) {
+    // If matched, retrieve learner data.
     const learnerData = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
     console.log(learnerData);
   } else {
+    // If not matched, throw an error.
     throw new Error('Error: Course ID and Assignment Group Course ID do not match');
   }
 } catch (error) {
+  // Catching and logging errors.
   console.error(error);
 }
+
 // console.log(AssignmentGroup.assignments[0].id);
